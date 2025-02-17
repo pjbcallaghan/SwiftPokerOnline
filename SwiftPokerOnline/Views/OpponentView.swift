@@ -95,15 +95,7 @@ struct OpponentView: View {
 				Text("Chips: \(opponent.chips)")
 			}
 			.foregroundStyle(.white)
-			
-			// DEBUGGING BUTTON
-			Button("Call") {
-				call(player: opponent)
-			}
-			.disabled(!opponent.playerToAct)
-			.buttonStyle(.borderedProminent)
-			.tint(.red)
-			
+						
 			Text("  \(opponent.actionText)  ").padding(4).background(.white).clipShape(.capsule)
 				.opacity(actionTextOpacity)
 				.offset(y: CGFloat(actionTextOffset))
@@ -122,38 +114,6 @@ struct OpponentView: View {
 					}
 				}
 		}
-	}
-	
-	
-	//FOR DEBUGGING
-	func call(player: Player) {
-		player.called = true
-		player.playerToAct = false
-		if player.amountToCall > 0 {
-			if player.chips > player.amountToCall {
-				player.chips -= player.amountToCall
-				if let table = table.table {
-					table.roundPot += player.amountToCall
-				}
-				player.actionText = "Call \(player.amountToCall)"
-				print("Player \(player.id) calls \(player.amountToCall)")
-				player.amountToCall = 0
-			} else {
-				if let table = table.table {
-					table.roundPot += player.chips
-				}
-				player.chips = 0
-				player.amountToCall = 0
-				player.actionText = "ALL IN"
-				print("Player \(player.id) all in")
-			}
-			
-		} else {
-			player.actionText = "Check"
-			print("Player \(player.id) checks.")
-		}
-		player.updateAction.toggle()
-			table.updatePlayerToAct(player: player)
 	}
 }
 
