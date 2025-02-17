@@ -31,7 +31,7 @@ class Player: Codable {
 	//Account Variables
 	var user: String = ""
 	var pass: String = ""
-	var chips: Int = 2000
+	var chips: Int = 2000 
 	
 	//In Game Variables
 	var button: Int = 10

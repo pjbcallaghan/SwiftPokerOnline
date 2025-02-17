@@ -5,8 +5,20 @@
 //  Created by Patrick Callaghan on 13/02/2025.
 //
 
+//The logic within this document is badly organised, confusing, and has various inefficiencies. This code needs to be refactored.
+
 import Foundation
 
+//Calls the functions that check each player left in the hand for certain made hands.
+func checkHands(table: PokerTable) {
+	checkFlush(table: table)
+	checkPairs(table: table)
+	checkStraight(table: table)
+	checkStraightAHigh(table: table)
+}
+
+
+//This function calls the other functions necessary for hand evaluation, and after updating info on players establishes the winner of the hand.
 func evaluateHands(table: PokerTable) {
 	for player in table.players {
 		player.bestHandName = "highCard"
@@ -16,17 +28,17 @@ func evaluateHands(table: PokerTable) {
 	
 	var playersInHand = table.players.filter({ $0.inHand })
 	for player in playersInHand {
-		if player.StrFlush { player.bestHandName = "strFlush";  player.score = 10_000 }
-		else if player.kind4 { player.bestHandName = "kind4";  player.score = 9_000 }
-		else if player.fullHouse { player.bestHandName = "fullHouse";  player.score = 8_000 }
-		else if player.flush { player.bestHandName = "flush";  player.score = 7_000 }
-		else if player.straight { player.bestHandName = "straight";  player.score = 6_000 }
-		else if player.kind3 { player.bestHandName = "kind3";  player.score = 5_000 }
-		else if player.pair2 { player.bestHandName = "pair2";  player.score = 4_000 }
-		else if player.pair1 { player.bestHandName = "pair1";  player.score = 3_000 }
-		else { player.bestHandName = "highCard";  player.score = 2_000 }
+		if player.StrFlush { player.bestHandName = "strFlush";  player.score = 10 }
+		else if player.kind4 { player.bestHandName = "kind4";  player.score = 9 }
+		else if player.fullHouse { player.bestHandName = "fullHouse";  player.score = 8 }
+		else if player.flush { player.bestHandName = "flush";  player.score = 7 }
+		else if player.straight { player.bestHandName = "straight";  player.score = 6 }
+		else if player.kind3 { player.bestHandName = "kind3";  player.score = 5 }
+		else if player.pair2 { player.bestHandName = "pair2";  player.score = 4 }
+		else if player.pair1 { player.bestHandName = "pair1";  player.score = 3 }
+		else { player.bestHandName = "highCard";  player.score = 2 }
 		
-		tieBreaker2(table: table)
+		tieBreaker(table: table)
 		
 		for card in player.bestHand {
 			if card.number == 1 { player.handStrength += 14 }
@@ -34,11 +46,12 @@ func evaluateHands(table: PokerTable) {
 		}
 	}
 	
+	//If players have the same hand (score), use handStrength (kicker values) to determine winner. These variable names are poorly chosen and confusing.
 	playersInHand.sort {
 		if $0.score == $1.score {
-			return $0.handStrength > $1.handStrength // Compare handStrength if scores are equal
+			return $0.handStrength > $1.handStrength
 		}
-		return $0.score > $1.score // Compare scores otherwise
+		return $0.score > $1.score
 	}
 	
 	print("Player \(playersInHand[0].id) takes down the pot of \(table.pot) chips")
@@ -46,7 +59,13 @@ func evaluateHands(table: PokerTable) {
 	
 }
 
-func tieBreaker2(table: PokerTable) {
+//This function is used when Ace needs to be treated as a high card.
+func rankValue(for card: Card) -> Int {
+	return card.number == 1 ? 14 : card.number
+}
+
+//This function is used to determine which players have the best hand if 2 players have the same made hand. For some hands, this logic is baked into the check/Hand/ logic (i.e. checkStraights).
+func tieBreaker(table: PokerTable) {
 	let playersInHand = table.players.filter({ $0.inHand })
 	for player in playersInHand {
 		switch player.bestHandName {
@@ -101,27 +120,20 @@ func tieBreaker2(table: PokerTable) {
 			let kicker = player.holeCards
 				.sorted { rankValue(for: $0) < rankValue(for: $1) }
 			player.bestHand = kicker.suffix(5)
-			
-			
 		}
 	}
 }
 
-func rankValue(for card: Card) -> Int {
-	return card.number == 1 ? 14 : card.number // Treat Ace (rank 1) as 14
-}
-
+//Checks each player in the hand for a flush.
 func checkFlush(table: PokerTable) {
 	let playersInHand = table.players.filter({ $0.inHand })
 	for player in playersInHand {
-		var suitCount: [String: [Card]] = [:] // Map suit to an array of cards
+		var suitCount: [String: [Card]] = [:]
 		
-		// Group cards by suit
 		for card in player.holeCards {
 			suitCount[card.suit, default: []].append(card)
 		}
 		
-		// Check each suit for a flush
 		for (_, cards) in suitCount {
 			if cards.count >= 5 {
 				
@@ -131,17 +143,16 @@ func checkFlush(table: PokerTable) {
 	}
 }
 
+//Checks each players in the hand for 1 pair, 2 pairs, 3 of a kind or 4 of a kind.
 func checkPairs(table: PokerTable) {
 	let playersInHand = table.players.filter({ $0.inHand })
 	for player in playersInHand {
 		var valueCount: [Int: Int] = [:]
 		
-		// Count the occurrences of each card number
 		for card in player.holeCards {
 			valueCount[card.number, default: 0] += 1
 		}
 		
-		// Clear the player's combination arrays
 		player.fourOfKindCards = []
 		player.threeOfKindCards = []
 		player.pairCards = []
@@ -149,7 +160,6 @@ func checkPairs(table: PokerTable) {
 		var pairs = 0
 		var kind3x2 = 0
 		
-		// Iterate over the counts to identify combinations
 		for (number, count) in valueCount {
 			if count == 4 {
 				player.kind4 = true
@@ -194,6 +204,7 @@ func checkPairs(table: PokerTable) {
 	}
 }
 
+//This function checks if cards are consecutive for straigh evaluation.
 func isConsecutive(_ cards: [Card]) -> Bool {
 	for i in 1..<cards.count {
 		if cards[i].number != cards[i - 1].number + 1 {
@@ -203,18 +214,17 @@ func isConsecutive(_ cards: [Card]) -> Bool {
 	return true
 }
 
+//Checks each player for a straight or straight flush.
 func checkStraight(table: PokerTable) {
 	let playersInHand = table.players.filter({ $0.inHand })
 	for player in playersInHand {
 		
 		let uniqueCards = Array(Set(player.holeCards)).sorted()
 		
-		// Loop over all potential starting points for a straight
 		if uniqueCards.count > 4 {
 			for i in 0..<(uniqueCards.count - 4) {
-				let subArray = Array(uniqueCards[i...(i + 4)]) // 5 consecutive cards
+				let subArray = Array(uniqueCards[i...(i + 4)])
 				
-				// Check if the 5 cards are consecutive
 				if isConsecutive(subArray) {
 					player.straight = true
 					if player.bestHandName == "straight" {
@@ -224,7 +234,7 @@ func checkStraight(table: PokerTable) {
 					// Check if all cards in the straight have the same suit
 					let suits = Set(subArray.map { $0.suit })
 					if suits.count == 1 {
-						player.StrFlush = true // Straight Flush
+						player.StrFlush = true
 						if player.bestHandName == "strFlush" {
 							player.bestHand = uniqueCards.sorted().suffix(5)
 						}
@@ -235,15 +245,14 @@ func checkStraight(table: PokerTable) {
 	}
 }
 
+//Check each player for an ace high straight or straight flush. This function could definitely be removed and just baked into the previous function using the rankValue function.
 func checkStraightAHigh(table: PokerTable) {
 	let playersInHand = table.players.filter({ $0.inHand })
 	for player in playersInHand {
 		let aceHigh = [1, 10, 11, 12, 13]
 		
-		// Filter player's hand for Ace High straight cards
 		let aceHighCards = player.holeCards.filter { aceHigh.contains($0.number) }
 		
-		// Remove duplicates based on the .number property
 		var uniqueValues: [Card] = []
 		var seenNumbers: Set<Int> = []
 		
@@ -254,7 +263,6 @@ func checkStraightAHigh(table: PokerTable) {
 			}
 		}
 		
-		// Check if there are exactly 5 unique cards and if they all share the same suit
 		if uniqueValues.count == 5 {
 			player.straight = true
 			
@@ -262,10 +270,9 @@ func checkStraightAHigh(table: PokerTable) {
 				player.bestHand = uniqueValues
 			}
 			
-			// Check if all cards in the Ace High straight share the same suit
 			let suits = Set(uniqueValues.map { $0.suit })
 			if suits.count == 1 {
-				player.StrFlush = true // This indicates a straight flush
+				player.StrFlush = true
 				if player.bestHandName == "strFlush" {
 					player.bestHand = uniqueValues
 				}
@@ -274,9 +281,4 @@ func checkStraightAHigh(table: PokerTable) {
 	}
 }
 
-func checkHands(table: PokerTable) {
-	checkFlush(table: table)
-	checkPairs(table: table)
-	checkStraight(table: table)
-	checkStraightAHigh(table: table)
-}
+

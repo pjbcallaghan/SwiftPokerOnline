@@ -10,6 +10,7 @@ import SwiftUI
 
 //Individual cards views
 
+//View for when a card has not been dealt
 func noCard() -> some View {
 	ZStack {
 		RoundedRectangle(cornerRadius: 5).foregroundStyle(.white)
@@ -27,10 +28,13 @@ func noCard() -> some View {
 	}.frame(width: 60, height: 80).opacity(0.2)
 }
 
+//View for when a card has been dealt and is unknown
 func cardBack() -> some View {
 	return Image("back").resizable().scaledToFit().frame(width:60, height: 80)
 }
 
+
+//View for when a dealt card is visible
 func cardView(card: Card) -> some View {
 	ZStack {
 		ZStack(alignment: .top) {

@@ -161,6 +161,7 @@ struct PlayerView: View {
 		}.buttonStyle(.borderedProminent).tint(.green)
 			.disabled(table.hasLoaded == false)
 	}
+	
 	fileprivate func loginButton() -> some View {
 		return Button(){
 			auth.showLoginView = true
@@ -175,6 +176,7 @@ struct PlayerView: View {
 		}.buttonStyle(.plain)
 			.foregroundStyle(.white)
 	}
+	
 	fileprivate func raiseView() -> some View {
 		return VStack {
 			if let player = table.players.first(where: { $0.user == auth.username }) {
@@ -216,7 +218,6 @@ struct PlayerView: View {
 		if let table = table.table {
 			table.roundPot += player.amountToCall
 		}
-		
 		for player in table.players {
 			player.called = false
 			player.amountToCall += bet
@@ -270,6 +271,7 @@ struct PlayerView: View {
 		player.updateAction.toggle()
 		table.updatePlayerToAct(player: player)
 	}
+	
 	func fold(player: Player) {
 		player.folded = true
 		player.inHand = false

@@ -10,7 +10,7 @@ import FirebaseFirestore
 
 //Server browser view. This is the view players first see upon opening the app.
 
-struct ContentView: View {
+struct ServerBrowserView: View {
 	let samplePlayer = Player()
 	
 	@State private var createRoomName = ""
@@ -78,8 +78,6 @@ struct ContentView: View {
 							.tint(Color(red: 0.1, green: 0.5, blue: 0.1))
 							.disabled(createRoomName.count < 3)
 					}.padding(20)
-					
-					
 				}
 			}
 		}.sheet(isPresented: $auth.showLoginView) { LoginView() }
@@ -87,6 +85,6 @@ struct ContentView: View {
 }
 
 #Preview {
-	ContentView()
+	ServerBrowserView()
 		.environmentObject(AuthViewModel())
 }

@@ -38,7 +38,7 @@ class ServerBrowserViewModel: ObservableObject {
 	}
 	
 	deinit {
-		listener?.remove()  // Stop listening when view model is deallocated
+		listener?.remove()  
 	}
 }
 

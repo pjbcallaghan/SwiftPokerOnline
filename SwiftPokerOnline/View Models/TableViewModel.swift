@@ -10,7 +10,6 @@ import FirebaseFirestore
 
 let db = Firestore.firestore()
 
-
 class TableViewModel: ObservableObject {
 	@Published var table: PokerTable?
 	@Published var hasLoaded = false
@@ -52,8 +51,6 @@ class TableViewModel: ObservableObject {
 	
 	func addPlayer(newPlayer: Player) {
 		guard let pokerTable = table else { return }
-		
-		// Append the new player to the local array
 		pokerTable.players.append(newPlayer)
 		updatePokerTable()
 	}
@@ -61,10 +58,8 @@ class TableViewModel: ObservableObject {
 	func removePlayer(user: String) {
 		guard let pokerTable = table else { return }
 		
-		// Filter out the player who is leaving
 		pokerTable.players.removeAll { $0.user == user }
 		
-		// Update Firestore with the modified player list
 		let playersData = pokerTable.players.map { try? Firestore.Encoder().encode($0) }
 		
 		db.collection("pokerTables").document(pokerTable.id ?? "Fake room")
@@ -74,7 +69,6 @@ class TableViewModel: ObservableObject {
 				} else {
 					print("Player removed successfully!")
 					
-					// Update local state after successful Firestore update
 					DispatchQueue.main.async {
 						self.table?.players.removeAll { $0.user == user }
 					}

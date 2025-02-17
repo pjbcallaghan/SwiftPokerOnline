@@ -21,28 +21,27 @@ struct OpponentView: View {
 	var body: some View {
 		let player = table.players.first(where: { $0.user == auth.username })
 		if hasJoined {
+			//If player is on the table, determine which order to display opponents based on player button value (position)
 			if let player = player {
 				let opponents = table.players
-					.filter { $0.user != player.user } // Remove the player
+					.filter { $0.user != player.user }
 					.sorted {
 						let buttonA = $0.button
 						let buttonB = $1.button
-						
-						// Adjust button values to create a circular order
 						let adjustedA = (buttonA - player.button + 6) % 6
 						let adjustedB = (buttonB - player.button + 6) % 6
-						
 						return adjustedA < adjustedB
 					}
-				let sortedPlayers = [player] + opponents  // Ensure player is first
+				let sortedPlayers = [player] + opponents
 				if sortedPlayers.indices.contains(playerNumber) {
 					let opponent = sortedPlayers[playerNumber]
 					opponentView(opponent: opponent)
 				} else {
-					noOpponent()  // Handle out-of-bounds case safely
+					noOpponent()
 				}
 			}
 		} else {
+			//If player has not joined the table, display opponents by button value for correct circular gameplay while spectating.
 			let sortedPlayers = table.players.sorted(by: {$0.button < $1.button})
 			if sortedPlayers.indices.contains(playerNumber - 1) {
 				let opponent = sortedPlayers[playerNumber - 1]
@@ -53,6 +52,7 @@ struct OpponentView: View {
 		}
 	}
 	
+	//View for if no opponent has joined in a given position.
 	fileprivate func noOpponent() -> some View {
 		VStack {
 			Text("No Player")
@@ -95,15 +95,7 @@ struct OpponentView: View {
 				Text("Chips: \(opponent.chips)")
 			}
 			.foregroundStyle(.white)
-			
-			// DEBUGGING BUTTON
-			Button("Call") {
-				call(player: opponent)
-			}
-			.disabled(!opponent.playerToAct)
-			.buttonStyle(.borderedProminent)
-			.tint(.red)
-			
+						
 			Text("  \(opponent.actionText)  ").padding(4).background(.white).clipShape(.capsule)
 				.opacity(actionTextOpacity)
 				.offset(y: CGFloat(actionTextOffset))
@@ -122,38 +114,6 @@ struct OpponentView: View {
 					}
 				}
 		}
-	}
-	
-	
-	//FOR DEBUGGING
-	func call(player: Player) {
-		player.called = true
-		player.playerToAct = false
-		if player.amountToCall > 0 {
-			if player.chips > player.amountToCall {
-				player.chips -= player.amountToCall
-				if let table = table.table {
-					table.roundPot += player.amountToCall
-				}
-				player.actionText = "Call \(player.amountToCall)"
-				print("Player \(player.id) calls \(player.amountToCall)")
-				player.amountToCall = 0
-			} else {
-				if let table = table.table {
-					table.roundPot += player.chips
-				}
-				player.chips = 0
-				player.amountToCall = 0
-				player.actionText = "ALL IN"
-				print("Player \(player.id) all in")
-			}
-			
-		} else {
-			player.actionText = "Check"
-			print("Player \(player.id) checks.")
-		}
-		player.updateAction.toggle()
-			table.updatePlayerToAct(player: player)
 	}
 }
 

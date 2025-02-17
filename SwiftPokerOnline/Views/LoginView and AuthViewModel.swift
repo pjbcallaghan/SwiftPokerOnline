@@ -20,6 +20,9 @@ struct LoginView: View {
 	@State private var loginFailMessage = false
 	
 	var body: some View {
+		
+		//Logout view
+		
 		if auth.isLoggedIn {
 			Text("Currently logged in as: \(auth.username)")
 			Text("Chips: \(auth.chips)").onAppear { auth.fetchChips() }
@@ -30,6 +33,9 @@ struct LoginView: View {
 			}.buttonStyle(.borderedProminent)
 				.padding()
 		} else {
+			
+			//Login View
+			
 			Text("Please register or log in:")
 			HStack {
 				Spacer(); Spacer()
@@ -90,6 +96,34 @@ struct LoginView: View {
 		}
 		
 	}
+	
+	func registerUser(username: String, password: String, completion: @escaping (Bool, String?) -> Void) {
+		let hashedPassword = hashPassword(password)
+		let db = Firestore.firestore()
+		let userRef = db.collection("Users").document(username)
+		
+		userRef.getDocument { (document, error) in
+			if let document = document, document.exists {
+				completion(false, "Username already exists")
+			} else {
+				let userData: [String: Any] = [
+					"username": username,
+					"password": hashedPassword,
+					"createdAt": Timestamp(),
+					"chips": 10_000
+				]
+				
+				userRef.setData(userData) { error in
+					if let error = error {
+						completion(false, "Error registering user: \(error.localizedDescription)")
+					} else {
+						completion(true, nil)
+					}
+				}
+			}
+		}
+	}
+
 }
 
 //AuthViewModel
@@ -119,11 +153,10 @@ class AuthViewModel: ObservableObject {
 	func logout() {
 		isLoggedIn = false
 		username = ""
-		
 	}
 	
 	func loginUser(username: String, password: String, completion: @escaping (Bool, String?) -> Void) {
-		let hashedPassword = hashPassword(password)  // 🔒 Hash entered password
+		let hashedPassword = hashPassword(password)
 		let db = Firestore.firestore()
 		
 		let userRef = db.collection("Users").document(username)
@@ -132,21 +165,22 @@ class AuthViewModel: ObservableObject {
 				let storedPassword = data["password"] as? String ?? ""
 				
 				if storedPassword == hashedPassword {
-					completion(true, nil)  // ✅ Success
+					completion(true, nil)  
 					self.loginFailed = false
 					
 				} else {
-					completion(false, "Invalid username or password")  // ❌ Incorrect password
+					completion(false, "Invalid username or password")
 					self.loginFailed = true
 				}
 			} else {
-				completion(false, "Invalid username or password")  // ❌ No user found
+				completion(false, "Invalid username or password")
 				self.loginFailed = true
 				
 			}
 		}
 	}
 	
+	//Gathers a users chips data from firestore. Currently a users chip data is not changed by in game performances so this is pointless.
 	func fetchChips() {
 		guard isLoggedIn else { return }
 		
@@ -161,40 +195,11 @@ class AuthViewModel: ObservableObject {
 	
 }
 
-
+//Encrypt password user registers with
 func hashPassword(_ password: String) -> String {
 	let passwordData = Data(password.utf8)
 	let hashed = SHA256.hash(data: passwordData)
 	return hashed.compactMap { String(format: "%02x", $0) }.joined()
-}
-
-extension LoginView {
-	func registerUser(username: String, password: String, completion: @escaping (Bool, String?) -> Void) {
-		let hashedPassword = hashPassword(password)
-		let db = Firestore.firestore()
-		let userRef = db.collection("Users").document(username)  // Username as document ID
-		
-		userRef.getDocument { (document, error) in
-			if let document = document, document.exists {
-				completion(false, "Username already exists")
-			} else {
-				let userData: [String: Any] = [
-					"username": username,
-					"password": hashedPassword,  // 🔒 Store hashed password
-					"createdAt": Timestamp(),
-					"chips": 10_000
-				]
-				
-				userRef.setData(userData) { error in
-					if let error = error {
-						completion(false, "Error registering user: \(error.localizedDescription)")
-					} else {
-						completion(true, nil)
-					}
-				}
-			}
-		}
-	}
 }
 
 
