@@ -1,6 +1,7 @@
 **SwiftPokerOnline** is a multiplayer poker game for iOS, built using Swift and Firebase. It allows players to join rooms and play Texas Hold'em in real-time. This application was made primarily as a learning exercise for myself. Hand evaluation logic was made from scratch rather than using one of the existing libraries that can help with this, due to the nature of the project as a learning exercise. The application also features a server browser and simple custom user authentication system. This project was effective in helping me to learn principles of networking, simple algorithm creation for game flow and hand evaluation logic, and UI design.
 
 **Sample GIFs**
+
 ![til](https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExcTkxM3l1bDNsNXFqcDdhYWxjcTFnZHNldTk4ZHB1OXR5amRqemg5ZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/t1QrWauvsGXsL5r2i0/giphy.gif)
 ![til](https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExMHk0Z2d4Z2dqZ2puaDE5MWZ5dDE1bHJoNjhtOHA1Z2g0YTdtd3prZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/n5Mu2acQtWuTMnF2Ir/giphy.gif)
 ![til](https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHUwOG0xcXk3b3NxNXM1OW1yZjM5cHFnbjRjc284Z3FmM21mZDB1NCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/cwIEAhacKohGMHCPdN/giphy.gif)
