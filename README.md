@@ -4,7 +4,6 @@
 
 ![til](https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExcTkxM3l1bDNsNXFqcDdhYWxjcTFnZHNldTk4ZHB1OXR5amRqemg5ZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/t1QrWauvsGXsL5r2i0/giphy.gif)
 ![til](https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExMHk0Z2d4Z2dqZ2puaDE5MWZ5dDE1bHJoNjhtOHA1Z2g0YTdtd3prZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/n5Mu2acQtWuTMnF2Ir/giphy.gif)
-![til](https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHUwOG0xcXk3b3NxNXM1OW1yZjM5cHFnbjRjc284Z3FmM21mZDB1NCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/cwIEAhacKohGMHCPdN/giphy.gif)
 
 **Tech Stack**
 
@@ -46,6 +45,7 @@ During showdown logic, should the 2 strongest players have equal strength pairs 
 
 
 **UI Issues**
+
 There is no way to return to the server browser/main menu without closing and re-opening the app.
 
 There is no way to delete a room that a user has created other than doing so manually on firebase. 
