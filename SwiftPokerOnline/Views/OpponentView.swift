@@ -12,7 +12,7 @@ struct OpponentView: View {
 	@EnvironmentObject var auth: AuthViewModel
 	@Binding var hasJoined: Bool
 	var playerNumber: Int
-
+	
 	//Animation Variables
 	@State private var actionTextVisible = false
 	@State private var actionTextOpacity = 0.0
@@ -95,7 +95,7 @@ struct OpponentView: View {
 				Text("Chips: \(opponent.chips)")
 			}
 			.foregroundStyle(.white)
-						
+			
 			Text("  \(opponent.actionText)  ").padding(4).background(.white).clipShape(.capsule)
 				.opacity(actionTextOpacity)
 				.offset(y: CGFloat(actionTextOffset))
@@ -113,7 +113,7 @@ struct OpponentView: View {
 						}
 					}
 				}
-		}
+		}.shadow(color: opponent.playerToAct ? .white : .clear, radius: 10.0)
 	}
 }
 

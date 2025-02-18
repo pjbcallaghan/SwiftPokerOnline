@@ -55,6 +55,8 @@ func evaluateHands(table: PokerTable) {
 	}
 	
 	print("Player \(playersInHand[0].id) takes down the pot of \(table.pot) chips")
+	
+	//Updating the subarray here is causing data on firebase to not be updated correctly.
 	playersInHand[0].chips += table.pot
 	
 }

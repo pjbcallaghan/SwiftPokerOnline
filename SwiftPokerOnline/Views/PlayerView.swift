@@ -10,7 +10,7 @@ import SwiftUI
 struct PlayerView: View {
 	@ObservedObject var table: TableViewModel
 	@EnvironmentObject var auth: AuthViewModel
-	@Environment(\.scenePhase) private var scenePhase  // Track app state changes
+	@Environment(\.scenePhase) private var scenePhase
 	@Binding var joinedTable: Bool
 	
 	//Animation variables
@@ -42,7 +42,7 @@ struct PlayerView: View {
 							}.opacity(player.button == 0 ? 1.0 : 0.0)
 						}
 						Text(auth.username)
-					}
+					}.offset(x: -15)
 					HStack {
 						if let player = table.players.first(where: { $0.user == auth.username }), player.holeCards.count > 1 {
 							VStack {
@@ -128,6 +128,7 @@ struct PlayerView: View {
 			}.opacity(joinedTable ? 1 : 0)
 			Spacer()
 				.sheet(isPresented: $auth.showLoginView, content: { LoginView() })
+			//This method of displaying the raise view is not flexible with different display sizes and needs to be changed
 			raiseView().offset(y: CGFloat(raiseViewOffset))
 		}
 		
