@@ -17,7 +17,7 @@ Tools: Xcode, Git, GitHub
 
 **Known Issues**
 
-There are a relatively large number of bugs/issues that exist within the app in its current state. While a lot of these would be fairly trivial to fix, I have decided to move on from this project as I feel that I would be able to learn more by focussing on a different project at this stage. 
+There are a number of bugs/issues that exist within the app in its current state. While a lot of these would be fairly easy to fix, I have decided to move on from this project as I feel that I would be able to learn more by focussing on a different project at this stage. Aside from the issues listed below, there are also some issues in the way the app is coded, as it is sometimes confusingly organised or inefficient. I have made an effort to highlight instances of this with comments in the code.
 
 **Networking issues**
 
@@ -31,7 +31,7 @@ There is no timer on a players actions, which means users can hold a game hostag
 
 *Chip count updates*
 
-Player chip counts will not be updated correctly after a hand ends, as the logic creates a subarray and user chip counts are updated here. This is then not correctly set to the server. Furthermore, while a user total chip count is stored on firebase (and can be seen on the logout screen) this value is never changed within the app so is meaningless.
+Player chip counts will not be updated correctly after a hand ends in this version of the app. Furthermore, while a user total chip count is stored on firebase (and can be seen on the logout screen) this value is never changed within the app and so is meaningless.
 
 **Game logic issues**
 
@@ -41,7 +41,7 @@ If 2 players have equal hands at showdown, the player who most recently took an 
 *Kicker logic is incorrect in some instances*
 During showdown logic, should the 2 strongest players have equal strength pairs as their best hand, or should the 2 strongest players have the same high card as their best hand, instead of choosing their highest card as their kicker, the app will instead compare the combined value of their 3 strongest kicker cards. For example, a player with a pair of aces and a queen, jack, and 10 as their kicker cards would incorrectly beat a player with a pair of aces and a king, a 2, and a 3 as their kicker cards.
 
-Full houses are not evaluated correctly
+Full houses are not evaluated correctly in this version of the app.
 
 
 **UI Issues**
