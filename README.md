@@ -5,6 +5,16 @@
 ![til](https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExcTkxM3l1bDNsNXFqcDdhYWxjcTFnZHNldTk4ZHB1OXR5amRqemg5ZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/t1QrWauvsGXsL5r2i0/giphy.gif)
 ![til](https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExMHk0Z2d4Z2dqZ2puaDE5MWZ5dDE1bHJoNjhtOHA1Z2g0YTdtd3prZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/n5Mu2acQtWuTMnF2Ir/giphy.gif)
 
+**Installation**
+
+1. Clone the repository.  
+2. Open `SwiftPokerOnline.xcodeproj` in Xcode.  
+3. Ensure Firebase is configured by adding your `GoogleService-Info.plist`.  
+4. Run the project on a simulator or device.
+
+   Please note, I have unfortunately not had the opportunity to test this project on another machine, so I apologise for any difficulties getting the app running.
+
+
 **Tech Stack**
 
 Language: Swift
