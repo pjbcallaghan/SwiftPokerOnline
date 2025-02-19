@@ -1,4 +1,4 @@
-**SwiftPokerOnline** is a multiplayer poker game for iOS, built using Swift and Firebase. It allows players to join rooms and play Texas Hold'em in real-time. This application was made primarily as a learning exercise for myself. Hand evaluation logic was made from scratch rather than using one of the existing libraries that can help with this, due to the nature of the project as a learning exercise. The application also features a server browser and simple custom user authentication system. This project was effective in helping me to learn principles of networking, simple algorithm creation for game flow and hand evaluation logic, and UI design.
+**SwiftPokerOnline** is a multiplayer poker game for iOS, built using Swift and Firebase. It allows 2-6 players to join rooms and play Texas Hold'em in real-time. This application was made primarily as a learning exercise for myself, and as such hand evaluation logic was made from scratch, rather than using one of the existing libraries that helps with this. The application also features a server browser and simple custom user authentication system. This project was effective in helping me to learn principles of networking, algorithm creation for game flow and hand evaluation logic, and UI design.
 
 **Sample GIFs**
 
@@ -17,7 +17,7 @@ Tools: Xcode, Git, GitHub
 
 **Known Issues**
 
-There are a number of bugs/issues that exist within the app in its current state. While a lot of these would be fairly easy to fix, I have decided to move on from this project as I feel that I would be able to learn more by focussing on a different project at this stage. Aside from the issues listed below, there are also some issues in the way the app is coded, as it is sometimes confusingly organised or inefficient. I have made an effort to highlight instances of this with comments in the code.
+Known issues are listed below. There are also some inefficiencies/poor coding practices that I have made an effort to highlight within comments in the code.
 
 **Networking issues**
 
@@ -55,5 +55,7 @@ A number of failure points simply return print statements rather than providing 
 Big/small blind text will not appear properly for the user when they first join a room
 
 Fold text will not appear properly for an opponent if this causes the hand to end
+
+Some visual bugs when a new user joins a room.
 
 
