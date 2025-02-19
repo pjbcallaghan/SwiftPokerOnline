@@ -36,9 +36,11 @@ Player chip counts will not be updated correctly after a hand ends in this versi
 **Game logic issues**
 
 *No split pot logic*
+
 If 2 players have equal hands at showdown, the player who most recently took an action will be awarded the pot, rather than there being any split pot logic.. Similarly, if one player goes all in with a smaller stack than 2+ opposing players who continue to bet, the player with the smaller stack will still be awarded the full pot should they win the hand.
 
 *Kicker logic is incorrect in some instances*
+
 During showdown logic, should the 2 strongest players have equal strength pairs as their best hand, or should the 2 strongest players have the same high card as their best hand, instead of choosing their highest card as their kicker, the app will instead compare the combined value of their 3 strongest kicker cards. For example, a player with a pair of aces and a queen, jack, and 10 as their kicker cards would incorrectly beat a player with a pair of aces and a king, a 2, and a 3 as their kicker cards.
 
 Full houses are not evaluated correctly in this version of the app.
