@@ -15,6 +15,10 @@ Backend: Firebase Firestore
 
 Tools: Xcode, Git, GitHub
 
+**Future directions**
+
+This app was originally made as a single player game, where a user plays vs. AI, with the AI acting completely randomly. Porting this to work online required significant reworking of the app structure, and I have not yet reimplemented a method for a user to play offline against an AI, however I would like to include this as a feature. I would also like to use reinforcement learning to train an AI while simulating a large number of hands.
+
 **Known Issues**
 
 Known issues are listed below. There are also some inefficiencies/poor coding practices that I have made an effort to highlight within comments in the code.
